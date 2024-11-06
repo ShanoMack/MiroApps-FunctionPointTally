@@ -19,5 +19,10 @@
     "gh-pages": "^6.2.0",
     "vite": "3.0.3"
   },
-  "homepage": "https://shanomack.github.io/MiroApps-FunctionPointTally/"
+  "homepage": "https://shanomack.github.io/MiroApps-FunctionPointTally/",
+  "repository": 
+  {
+    "type": "git",
+    "url": "https://github.com/ShanoMack/MiroApps-FunctionPointTally.git"
+  }
 }
