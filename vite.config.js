@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import dns from 'dns';
-import {defineConfig} from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/server-options.html#server-host
@@ -13,12 +13,12 @@ const allHtmlEntries = fs
   .filter((file) => path.extname(file) === '.html')
   .reduce((acc, file) => {
     acc[path.basename(file, '.html')] = path.resolve(__dirname, file);
-
     return acc;
   }, {});
 
-// https://vitejs.dev/config/
+// Vite config
 export default defineConfig({
+  base: '/MiroApps-FunctionPointTally/', // Adjusted to match the GitHub Pages subfolder
   build: {
     rollupOptions: {
       input: allHtmlEntries,

@@ -20,8 +20,7 @@
     "vite": "3.0.3"
   },
   "homepage": "https://shanomack.github.io/MiroApps-FunctionPointTally/",
-  "repository": 
-  {
+  "repository": {
     "type": "git",
     "url": "https://github.com/ShanoMack/MiroApps-FunctionPointTally.git"
   }
