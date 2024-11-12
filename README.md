@@ -25,6 +25,11 @@
   This generates a static output inside [`dist/`](./dist), which you can host on a static hosting
   service.
 
+### How to deploy the app
+
+- Run `npm run deploy`. \
+  This builds to the 'gh pages' branch on GitHub pages and triggers a deployment that will make the updated app available in Miro.
+
 ### Folder structure
 
 <!-- The following tree structure is just an example -->
