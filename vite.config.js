@@ -17,8 +17,8 @@ const allHtmlEntries = fs
   }, {});
 
 // Vite config
-export default defineConfig({
-  base: '/', // Use root for local dev, override for prod if needed
+export default defineConfig(({ command }) => ({
+  base: command === 'build' ? '/MiroApps-FunctionPointTally/' : '/',
   build: {
     outDir: 'docs',
     rollupOptions: {
@@ -30,4 +30,4 @@ export default defineConfig({
     port: 3000,
     open: '/app.html', // Automatically open app.html for convenience
   },
-});
+}));
