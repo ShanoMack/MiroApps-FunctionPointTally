@@ -19,14 +19,6 @@ async function tallyFunctionPoints()
     return;
   }
 
-  //Get the position of the first selected item
-  const selectedItem = selection[0]; // Assuming the first selected item    
-  const position = 
-  {
-    x: selectedItem.x,
-    y: selectedItem.y,
-  }; // Get the position of the selected element
-
   const counts = 
   {
     inputs: { simple: 0, average: 0, complex: 0, undefinedComplexity: 0 },
@@ -127,49 +119,44 @@ async function tallyFunctionPoints()
   //alert(message);
   displayMessage("info", message);
 
-  outputFunctionPointTable(counts, functionPointTally, position);
+  openWebpageWithResults(counts, functionPointTally);
 }
 
-async function outputFunctionPointTable(counts, functionPointTally, selectionPosition) 
-{  
-  const posOffsetX = 0; // You can adjust this to set how far the text element is from the selection
-  const posOffsetY = -300; // Adjust the Y-offset as well
-  console.log("Making a table at X: " + (selectionPosition.x + posOffsetX) + "; Y: " + (selectionPosition.y + posOffsetY));
-
-  // Calculate totals for each complexity across all types
-  const totalSimple = counts.inputs.simple + counts.inquiries.simple + counts.outputs.simple + counts.internal.simple + counts.external.simple;
-  const totalAverage = counts.inputs.average + counts.inquiries.average + counts.outputs.average + counts.internal.average + counts.external.average;
-  const totalComplex = counts.inputs.complex + counts.inquiries.complex + counts.outputs.complex + counts.internal.complex + counts.external.complex;
-  const totalUndefined = counts.inputs.undefinedComplexity + counts.inquiries.undefinedComplexity + counts.outputs.undefinedComplexity + counts.internal.undefinedComplexity + counts.external.undefinedComplexity;
-  const totalAll = totalSimple + totalAverage + totalComplex + totalUndefined;
-
-  // Define rows for the table in Markdown format
-  const tableRows = [    
-      "### Function Point Tally",
-      "| Type | Simple | Average | Complex | Undefined | Total | Point tally |",
-      "| ---- | ---- | ---- | ---- | ---- | ---- | ---- |",
-      `| Inputs | ${counts.inputs.simple} | ${counts.inputs.average} | ${counts.inputs.complex} | ${counts.inputs.undefinedComplexity} | ${counts.inputs.simple + counts.inputs.average + counts.inputs.complex + counts.inputs.undefinedComplexity} | ${counts.inputs.simple * 3 + counts.inputs.average * 4 + counts.inputs.complex * 6 + counts.inputs.undefinedComplexity * 4} |`,
-      `| Inquiries | ${counts.inquiries.simple} | ${counts.inquiries.average} | ${counts.inquiries.complex} | ${counts.inquiries.undefinedComplexity} | ${counts.inquiries.simple + counts.inquiries.average + counts.inquiries.complex + counts.inquiries.undefinedComplexity} | ${counts.inquiries.simple * 3 + counts.inquiries.average * 4 + counts.inquiries.complex * 6 + counts.inquiries.undefinedComplexity * 4} |`,
-      `| Outputs | ${counts.outputs.simple} | ${counts.outputs.average} | ${counts.outputs.complex} | ${counts.outputs.undefinedComplexity} | ${counts.outputs.simple + counts.outputs.average + counts.outputs.complex + counts.outputs.undefinedComplexity} | ${counts.outputs.simple * 4 + counts.outputs.average * 5 + counts.outputs.complex * 7 + counts.outputs.undefinedComplexity * 5} |`,
-      `| Internal logical files | ${counts.internal.simple} | ${counts.internal.average} | ${counts.internal.complex} | ${counts.internal.undefinedComplexity} | ${counts.internal.simple + counts.internal.average + counts.internal.complex + counts.internal.undefinedComplexity} | ${counts.internal.simple * 7 + counts.internal.average * 10 + counts.internal.complex * 15 + counts.internal.undefinedComplexity * 10} |`,
-      `| External interface files | ${counts.external.simple} | ${counts.external.average} | ${counts.external.complex} | ${counts.external.undefinedComplexity} | ${counts.external.simple + counts.external.average + counts.external.complex + counts.external.undefinedComplexity}  | ${counts.external.simple * 5 + counts.external.average * 7 + counts.external.complex * 10 + counts.external.undefinedComplexity * 7} |`,
-      `| **Totals** | **${totalSimple}** | **${totalAverage}** | **${totalComplex}** | **${totalUndefined}** | **${totalAll}** | **${functionPointTally}** |`
-  ];
-
-  // Join table rows with newline characters for markdown format
-  const tableContent = tableRows.join("<br>");
-
-  // Create a new text widget to display the table on the Miro board in Markdown
-  const outputTable = await miro.board.createText({
-      content: tableContent,
-      x: 0, //selectionPosition.x + posOffsetX, // Adjust x-position as needed
-      y: 0, //selectionPosition.y + posOffsetY, // Adjust y-position as needed
-      width: 600 // Adjust width as needed
+async function openWebpageWithResults(counts, functionPointTally) 
+{
+  const baseUrl = "https://function-point-tally.vercel.app/";
+  
+  // Create URL with query parameters
+  const params = new URLSearchParams({
+    input_simple: counts.inputs.simple,
+    input_average: counts.inputs.average,
+    input_complex: counts.inputs.complex,
+    input_undefined: counts.inputs.undefinedComplexity,
+    output_simple: counts.outputs.simple,
+    output_average: counts.outputs.average,
+    output_complex: counts.outputs.complex,
+    output_undefined: counts.outputs.undefinedComplexity,
+    inquiry_simple: counts.inquiries.simple,
+    inquiry_average: counts.inquiries.average,
+    inquiry_complex: counts.inquiries.complex,
+    inquiry_undefined: counts.inquiries.undefinedComplexity,
+    external_simple: counts.external.simple,
+    external_average: counts.external.average,
+    external_complex: counts.external.complex,
+    external_undefined: counts.external.undefinedComplexity,
+    internal_simple: counts.internal.simple,
+    internal_average: counts.internal.average,
+    internal_complex: counts.internal.complex,
+    internal_undefined: counts.internal.undefinedComplexity
   });
-  await miro.board.viewport.zoomTo(outputTable); 
 
-  //const message = "Function Point Table added to the Miro board in Markdown format.";
-  //alert(message);
+  const fullUrl = baseUrl + "?" + params.toString();
+  
+  // Open the webpage with the results
+  window.open(fullUrl, '_blank');
+  
+  console.log("Opening webpage with results: " + fullUrl);
+  displayMessage("info", "Results page opened in new tab");
 }
 
 async function displayMessage(type, message)
@@ -217,39 +204,31 @@ async function setupBoardTags()
 //The app interface within Miro
 const App = () => 
   {    
-    const [tagTally, setTagTally] = React.useState(null);
-
-    const handleTallyTags = async () => {
-        console.log("Tally Tags button clicked"); // Debug log
-        const tally = await tallyTags();
-        setTagTally(tally);
-    };
-
     return (
-        <div className="grid wrapper">
-
-          <div className="cs1 ce12">
-            <h1>Function point tally</h1>
-            <p>Select all the items in your scope diagram and press the button below to tally it up.</p>
-            <button className="button button-primary" onClick={tallyFunctionPoints}>Calculate Function Points</button>
-            <p>The output will be in markdown format as Miro does not support dynamic table creation for now.</p>
-            <p>You can take the output and paste it here: https://markdownlivepreview.com/</p>
-          </div>
-
-          <div className="cs1 ce12">
-            <h3 class="h3">Set up board</h3>
-            <p>Need to import the tags for a new board? Press the button below.</p>
-            <button className="button" onClick={setupBoardTags}>Import tags</button>
-          </div>
-
-          <div className="cs1 ce12">
-            <p class="p-small">
-              Last update 2024-11-12 @ 15:50pm<br/>
-              Created by Shane Turner © 2024
-            </p>
-            <p></p>
-          </div>
+      <div className="miro-card miro-card--elevated" style={{ maxWidth: 600, margin: '40px auto', padding: 32 }}>
+        <div className="miro-card__content">
+          <h1 className="miro-h1" style={{ marginBottom: 8 }}>Function Point Tally</h1>
+          <p className="miro-text">Select all the items in your scope diagram and press the button below to tally it up.</p>
+          <button className="button button-primary miro-btn miro-btn--primary miro-btn--large" style={{ margin: '16px 0' }} onClick={tallyFunctionPoints}>
+            Calculate Function Points
+          </button>
+          <p className="miro-text miro-text--muted" style={{ marginBottom: 24 }}>
+            The results will be displayed in a new webpage with a detailed function point table.
+          </p>
+          <hr className="miro-divider" style={{ margin: '24px 0' }} />
+          <h3 className="miro-h3" style={{ marginBottom: 8 }}>Set up board</h3>
+          <p className="miro-text">Need to import the tags for a new board? Press the button below.</p>
+          <button className="button miro-btn miro-btn--secondary" style={{ margin: '16px 0' }} onClick={setupBoardTags}>
+            Import tags
+          </button>
         </div>
+        <div className="miro-card__footer" style={{ marginTop: 32, textAlign: 'center' }}>
+          <p className="miro-text miro-text--caption">
+            Last update 2025-07-08<br/>
+            Created by Shane Turner © 2025
+          </p>
+        </div>
+      </div>
     );
 };
 //==========================================================================
