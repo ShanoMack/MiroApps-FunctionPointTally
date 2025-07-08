@@ -1,7 +1,10 @@
 import * as React from 'react';
-import { createRoot } from 'react-dom/client';
-
 import '../src/assets/style.css';
+import { createRoot } from 'react-dom/client';
+import { Button } from './components/ui/button';
+import { Card, CardContent, CardFooter } from './components/ui/card';
+import { Separator } from './components/ui/separator';
+import { X } from 'lucide-react';
 
 //==========================================================================
 //The functions
@@ -182,7 +185,7 @@ async function setupBoardTags()
     { title: "T: Inquiry", color: "blue" }, //blue
     { title: "T: Output", color: "magenta" }, //pink
     { title: "T: Internal", color: "dark_blue" }, //navy
-    { title: "T: External", color: "gray" } //grey
+    { title: "T: External", color: "slate" } //grey
   ];
 
   const tagsToAdd = [];
@@ -205,33 +208,72 @@ async function setupBoardTags()
 const App = () => 
   {    
     return (
-      <div className="miro-card miro-card--elevated" style={{ maxWidth: 600, margin: '40px auto', padding: 0, position: 'relative', minHeight: 'calc(100vh - 80px)' }}>
-        <div>
-          <h1 class="h1">
-            Automatic function point tally
-          </h1>
-          <p class="p-large">
-            Select all the items in your scope diagram and press the button below to tally it up.
-          </p>
-          <button className="button button-primary" onClick={tallyFunctionPoints}>
-            Tally function points
-          </button>
-          <p class="p-medium">
-            The results will be displayed in a new webpage with a detailed function point table.
-          </p>
-          <hr/>
-          <h3 class="h3">Set up board</h3>
-          <p class="p-medium">
-            Need to import the tags for a new board? Press the button below.
-          </p>
-          <button className="button button-secondary" onClick={setupBoardTags}>
-            Import tags
-          </button>
-          <p className="p-small">
-            Last updated 2025-07-08<br/>
-            Created by Shane Turner © 2025
-          </p>
+      <div className="min-h-screen w-full bg-slate-50 flex flex-col gap-6">
+        {/* Compact Header */}
+        <header className="w-full flex items-center justify-between border-b bg-white pl-4 pr-2 py-2 shadow-sm">
+          <div className="text-lg font-medium text-slate-600">Function Point Tally</div>
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={() => miro.board.ui.closePanel && miro.board.ui.closePanel()}
+            className="h-8 w-8 p-0"
+            aria-label="Close"
+          >
+            <X className='w-5 h-5 text-slate-600'/>
+          </Button>
+        </header>
+
+        <div className='px-6 w-full'>
+          {/* Main Content */}
+          <Card className="w-full">
+            <CardContent>
+              <div className="flex flex-col items-start gap-4">
+                <div className='flex flex-col items-start gap-2'>
+                  <div className='text-xs font-semibold tracking-wider uppercase text-slate-500'>Step 1</div>
+                  <p className="text-base text-slate-800">
+                    Ensure you have the correct tags set up on your board. You only need to do this once per board.
+                  </p>
+                  <Button 
+                    onClick={setupBoardTags}
+                    variant="secondary"
+                  >
+                    Import tags
+                  </Button>                  
+                </div>
+                <Separator />
+                <div className='flex flex-col items-start gap-2'>
+                  <div className='text-xs font-semibold tracking-wider uppercase text-slate-500'>Step 2</div>
+                  <p className="text-base text-slate-800">
+                    Select the card elements in your scope diagram
+                  </p>
+                </div>
+                <Separator />
+                <div className='flex flex-col items-start gap-2'>
+                  <div className='text-xs font-semibold tracking-wider uppercase text-slate-500'>Step 3</div>
+                  <p className="text-base text-slate-800">
+                    Click the button below to tally the function points based on the tags applied to the selected cards.
+                  </p>
+                  <Button 
+                    onClick={tallyFunctionPoints}
+                  >
+                    Tally function points
+                  </Button>
+                </div>
+                <Separator />
+                <p className="text-sm text-slate-600">
+                  The results will be displayed in a new webpage with a detailed function point table.<br/>
+                  Link to <a href="https://function-point-tally.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Function Point Calculator</a>
+                </p>
+              </div>
+            </CardContent>
+          </Card>          
         </div>
+
+        {/* Footer */}
+        <footer className="w-full h-full flex flex-col bg-white px-4 py-2 mt-auto text-xs text-slate-500 border-t">
+          <span>Created by Shane Turner © 2025</span>
+          <span>Last updated 2025-07-08</span>
+        </footer>
       </div>
     );
 };
