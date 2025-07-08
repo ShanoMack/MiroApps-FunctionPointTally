@@ -27,8 +27,22 @@
 
 ### How to deploy the app
 
+- Commit and push your changes to your main branch on GitHub:
+  ```
+  git add .
+  git commit -m "Your message"
+  git push
+  ```
 - Run `npm run deploy`. \
-  This builds to the 'gh pages' branch on GitHub pages and triggers a deployment that will make the updated app available in Miro.
+  This builds the app and pushes the `dist` folder to the `gh-pages` branch on GitHub, updating your production site at:
+  
+  **https://shanomack.github.io/MiroApps-FunctionPointTally/**
+
+- In your Miro app settings, set the **App URL** to:
+  ```
+  https://shanomack.github.io/MiroApps-FunctionPointTally/
+  ```
+  (and update the Redirect URL if needed)
 
 ### Folder structure
 
