@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
+    "dev": "vite",
     "start": "vite",
     "build": "vite build",
     "serve": "vite preview",
@@ -10,7 +11,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "mirotone": "5",
+    "mirotone": "^5.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

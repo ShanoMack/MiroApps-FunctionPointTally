@@ -205,26 +205,30 @@ async function setupBoardTags()
 const App = () => 
   {    
     return (
-      <div className="miro-card miro-card--elevated" style={{ maxWidth: 600, margin: '40px auto', padding: 32 }}>
-        <div className="miro-card__content">
-          <h1 className="miro-h1" style={{ marginBottom: 8 }}>Function Point Tally</h1>
-          <p className="miro-text">Select all the items in your scope diagram and press the button below to tally it up.</p>
-          <button className="button button-primary miro-btn miro-btn--primary miro-btn--large" style={{ margin: '16px 0' }} onClick={tallyFunctionPoints}>
-            Calculate Function Points
+      <div className="miro-card miro-card--elevated" style={{ maxWidth: 600, margin: '40px auto', padding: 0, position: 'relative', minHeight: 'calc(100vh - 80px)' }}>
+        <div>
+          <h1 class="h1">
+            Automatic function point tally
+          </h1>
+          <p class="p-large">
+            Select all the items in your scope diagram and press the button below to tally it up.
+          </p>
+          <button className="button button-primary" onClick={tallyFunctionPoints}>
+            Tally function points
           </button>
-          <p className="miro-text miro-text--muted" style={{ marginBottom: 24 }}>
+          <p class="p-medium">
             The results will be displayed in a new webpage with a detailed function point table.
           </p>
-          <hr className="miro-divider" style={{ margin: '24px 0' }} />
-          <h3 className="miro-h3" style={{ marginBottom: 8 }}>Set up board</h3>
-          <p className="miro-text">Need to import the tags for a new board? Press the button below.</p>
-          <button className="button miro-btn miro-btn--secondary" style={{ margin: '16px 0' }} onClick={setupBoardTags}>
+          <hr/>
+          <h3 class="h3">Set up board</h3>
+          <p class="p-medium">
+            Need to import the tags for a new board? Press the button below.
+          </p>
+          <button className="button button-secondary" onClick={setupBoardTags}>
             Import tags
           </button>
-        </div>
-        <div className="miro-card__footer" style={{ marginTop: 32, textAlign: 'center' }}>
-          <p className="miro-text miro-text--caption">
-            Last update 2025-07-08<br/>
+          <p className="p-small">
+            Last updated 2025-07-08<br/>
             Created by Shane Turner © 2025
           </p>
         </div>
