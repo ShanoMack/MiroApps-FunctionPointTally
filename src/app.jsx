@@ -208,22 +208,8 @@ async function setupBoardTags()
 const App = () => 
   {    
     return (
-      <div className="min-h-screen w-full bg-slate-50 flex flex-col gap-6">
-        {/* Compact Header */}
-        <header className="w-full flex items-center justify-between border-b bg-white pl-4 pr-2 py-2 shadow-sm">
-          <div className="text-lg font-medium text-slate-600">Function Point Tally</div>
-          <Button 
-            variant="ghost" 
-            size="icon"
-            onClick={() => miro.board.ui.closePanel && miro.board.ui.closePanel()}
-            className="h-8 w-8 p-0"
-            aria-label="Close"
-          >
-            <X className='w-5 h-5 text-slate-600'/>
-          </Button>
-        </header>
-
-        <div className='px-6 w-full'>
+      <div className="min-h-screen w-full bg-slate-50 flex flex-col gap-4">
+        <div className='px-4 w-full'>
           {/* Main Content */}
           <Card className="w-full">
             <CardContent>
