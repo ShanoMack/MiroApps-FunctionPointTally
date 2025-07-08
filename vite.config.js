@@ -20,6 +20,7 @@ const allHtmlEntries = fs
 export default defineConfig({
   base: '/MiroApps-FunctionPointTally/', // Adjusted to match the GitHub Pages subfolder
   build: {
+    outDir: 'docs',
     rollupOptions: {
       input: allHtmlEntries,
     },
